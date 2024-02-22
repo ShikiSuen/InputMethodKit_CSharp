@@ -6,9 +6,27 @@ using InputMethodKit;
 namespace SampleInputMethod {
 [Register("SessionController")]
 public partial class SessionController : IMKInputController {
-  public SessionController(IMKServer server, NSObject @delegate, NSObject inputClient) {}
+  private InputHandler handler;
 
-  public bool HandleEvent(NSEvent @event, NSObject sender) { return false; }
+  private IMKTextInput? cachedClient;
+
+  public SessionController(IMKServer theServer, NSObject theDelegate, NSObject inputClient) {
+    _ = theServer;
+    _ = theDelegate;
+    cachedClient = (IMKTextInput?)inputClient ?? Client();
+    handler = new(controller: this);
+  }
+
+  public override IMKTextInput Client() => cachedClient ?? base.Client();
+
+  public bool HandleEvent(NSEvent givenEvent, NSObject sender) {
+    if (sender is not IMKTextInput) return false;  // Check sender's validity.
+    if (givenEvent is null) return false;          // macOS feeds nulled NSEvents to this method in some situations.
+    bool dropEvent = (givenEvent.Type != NSEventType.KeyDown && givenEvent.Type != NSEventType.FlagsChanged);
+    if (dropEvent) return false;  // In this demo we only handle KeyDown.
+    var kbEvent = new KBEvent(nsEvent: givenEvent);
+    return handler.TriageInput(givenEvent: kbEvent);
+  }
 
   public override void ActivateServer(NSObject sender) {}
 
@@ -29,6 +47,10 @@ public partial class SessionController : IMKInputController {
   public override void CancelComposition() {}
 
   public override NSMenu Menu => CreateInputMethodMenu();
+}
+
+public partial class SessionController {
+  public void CommitText(string textToCommit) { Client().InsertText((NSString)textToCommit, new(0, 0)); }
 
   private NSMenu CreateInputMethodMenu() {
     NSMenu resultMenu = new();

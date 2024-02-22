@@ -54,6 +54,7 @@
     <Compile Include="SampleInputMethod\SessionController.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="SampleInputMethod\InputHandler.cs" />
     <Compile Include="SampleInputMethod\KeyEvent.cs" />
   </ItemGroup>
   <ItemGroup>
