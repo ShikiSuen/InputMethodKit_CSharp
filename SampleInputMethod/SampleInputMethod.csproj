@@ -9,6 +9,7 @@
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <RootNamespace>SampleInputMethod</RootNamespace>
     <AssemblyName>Sample Input Method</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,13 +22,14 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
-    <HttpClientHandler></HttpClientHandler>
+    <HttpClientHandler>CFNetworkHandler</HttpClientHandler>
     <LinkMode>None</LinkMode>
     <CodesignProvision></CodesignProvision>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <I18n>cjk</I18n>
     <EnableCodeSigning>False</EnableCodeSigning>
     <XamMacArch>x86_64</XamMacArch>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +48,10 @@
     <CodesignExtraArgs></CodesignExtraArgs>
     <Profiling></Profiling>
     <HybridAOT>false</HybridAOT>
+    <LangVersion>latestmajor</LangVersion>
+    <XamMacArch></XamMacArch>
+    <AssemblyName></AssemblyName>
+    <Nullable></Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -75,19 +81,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
-      <DependentUpon>ViewController.cs</DependentUpon>
+    <Compile Include="AppDelegate.cs">
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Resources\MainMenu.xib" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleInputMethodAssembly\SampleInputMethodAssembly.csproj">
       <Name>SampleInputMethodAssembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InputMethodKitBinding\InputMethodKitBinding.csproj">
+      <Name>InputMethodKitBinding</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\MenuIcon-SampleInputMethod.png" />
+    <BundleResource Include="Resources\MenuIcon-SampleInputMethod%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <ProjectExtensions>

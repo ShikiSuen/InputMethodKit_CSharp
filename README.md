@@ -1,6 +1,6 @@
 # InputMethodKit binding for C#
 
-This is a non-official C# binding for InputMethodKit.
+This is a non-official C# binding for InputMethodKit. It is not currently runable due to something weird with IMKServer initiation.
 
 ## 著作權 (Credits)
 
